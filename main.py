@@ -17,11 +17,19 @@ import pandas as pd
 
 
 def readCsv():
-    pd.read_csv('dataset.csv',sep=',', names=['Age','Gender','TB','DB','AAP','Sgpt','Sgot','TP','ALB','A/G Ratio','target'])
+    df = pd.read_csv('dataset.csv',sep=',', names=['Age','Gender','TB','DB','AAP','Sgpt','Sgot','TP','ALB','A/G Ratio','target'])
+    return df
 
-
+def normalize(column):
+    return(column - column.min()) / (column.max() - column.min())
 
 if __name__ == "__main__":
     print("Welcome... Let's start our analyze")
-
+    print("First we need to read csv file")
+    df = readCsv()
+    print("Our dataframe is created")
+    print(df)
+    df['Gender'] = normalize(df['Gender'])
+    print("Gender column after normalization")
+    print(df)
     
