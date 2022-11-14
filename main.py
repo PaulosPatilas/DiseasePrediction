@@ -14,7 +14,7 @@
 # 10. A/G Ratio Albumin and Globulin Ratio
 # 11. Selector field used to split the data into two sets (labeled by the experts)
 import pandas as pd
-
+from sklearn import preprocessing
 
 def readCsv():
     df = pd.read_csv('dataset.csv',sep=',', names=['Age','Gender','TB','DB','AAP','Sgpt','Sgot','TP','ALB','A/G Ratio','target'])
@@ -22,6 +22,12 @@ def readCsv():
 
 def normalize(column):
     return(column - column.min()) / (column.max() - column.min())
+
+def minMaxNormalize(df):
+    names = df.columns
+    scaler = preprocessing.MinMaxScaler(feature_range=(-1,1))
+    d = scaler.fit_transform(df)
+    return pd.DataFrame(d,columns=names)
 
 if __name__ == "__main__":
     print("Welcome... Let's start our analyze")
