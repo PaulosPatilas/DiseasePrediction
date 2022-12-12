@@ -17,11 +17,17 @@ import pandas as pd
 from sklearn import preprocessing
 
 def readCsv():
+    print("Reading...")
     df = pd.read_csv('dataset.csv',sep=',', names=['Age','Gender','TB','DB','AAP','Sgpt','Sgot','TP','ALB','A/G Ratio','target'])
     return df
 
 def normalize(column):
     return(column - column.min()) / (column.max() - column.min())
+
+def encoder(df,column):
+    col = df[column]
+    labelEncoder = preprocessing.LabelEncoder()
+    df[column] = labelEncoder.fit_transform(col)
 
 def minMaxNormalize(df):
     names = df.columns
@@ -34,8 +40,21 @@ if __name__ == "__main__":
     print("First we need to read csv file")
     df = readCsv()
     print("Our dataframe is created")
+    print("-------------------------------------------------")
     print(df)
-    df['Gender'] = normalize(df['Gender'])
-    print("Gender column after normalization")
+    print("-------------------------------------------------")
+    # df['Gender'] = normalize(df['Gender'])
+    print('We need to encode every string data')
+    encoder(df,'Gender')
+    print("columns after encoding")
+    print("-------------------------------------------------")
     print(df)
+    print("-------------------------------------------------")
+    print('Its time for normalization')
+    df = minMaxNormalize(df)
+    print('Normalization Ready')
+    print("-------------------------------------------------")
+    print(df)
+    print("-------------------------------------------------")
+    
     
